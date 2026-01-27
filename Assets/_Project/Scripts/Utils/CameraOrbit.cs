@@ -10,6 +10,7 @@ public class CameraOrbit : MonoBehaviour
     private float pitch;
     private float yaw;
     private Camera cam;
+    private const float terrainOffset = 0.5f;
 
     private void Awake()
     {
@@ -36,7 +37,16 @@ public class CameraOrbit : MonoBehaviour
         //calcolo il finalOffset
         Vector3 finalOffset = pitchRotation * (yawRotation * offset);
 
-        cam.transform.position = target.position + finalOffset; //metto la camera dietro il player e applico l'offset ruotato
-        cam.transform.LookAt(target.position);    //uso il lookAt per far guardare la camera verso il player.
+        //fix per camera sotto il terreno
+        Vector3 cameraPos = target.position + finalOffset;
+
+        if (cameraPos.y < target.position.y + terrainOffset)
+        {
+            cameraPos.y = target.position.y + terrainOffset;
+        }
+
+        //posiziono la camera
+        cam.transform.position = cameraPos;
+        cam.transform.LookAt(target.position);
     }
 }

@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     private float multipledSpeed;
     private float horizontal;
     private float vertical;
-    private Vector3 finalDir;
 
     [Header("Rotation Attributes")]
     [SerializeField] private float rotationSmoothness = 10f;
