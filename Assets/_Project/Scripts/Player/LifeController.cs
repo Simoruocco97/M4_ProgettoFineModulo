@@ -7,7 +7,7 @@ public class LifeController : MonoBehaviour
     [SerializeField] private int maxHp = 100;
     [SerializeField] private int minHp = 0;
     [SerializeField] private bool fullHpOnStart = false;
-    [SerializeField] private int hpOnStart = 50;
+    private int hpOnStart = 50;
     private int currentHp;
 
     [Header("Unity Events")]
@@ -36,7 +36,7 @@ public class LifeController : MonoBehaviour
         return currentHp;
     }
 
-    public void SetHp(int hp)
+    private void SetHp(int hp)
     {
         currentHp = Mathf.Clamp(hp, minHp, maxHp);
         onHpChange.Invoke(currentHp, maxHp);
@@ -59,7 +59,7 @@ public class LifeController : MonoBehaviour
 
     private void DestroyIfDead()
     {
-        if (GetHp() <= 0)
+        if (GetHp() <= minHp)
         {
             onDefeat.Invoke();
 

@@ -4,7 +4,7 @@ public class CameraOrbit : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset;
-    [SerializeField] private float mouseSensitivity = 800f;
+    [SerializeField] private float mouseSensitivity = 2f;
     [SerializeField] private float clampMin = -60f;
     [SerializeField] private float clampMax = 60f;
     private float pitch;
@@ -24,22 +24,21 @@ public class CameraOrbit : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
 
         //aggiorno yaw e pitch
-        yaw += mouseX * mouseSensitivity * Time.deltaTime;
-        pitch -= mouseY * mouseSensitivity * Time.deltaTime;
+        yaw += mouseX * mouseSensitivity;
+        pitch -= mouseY * mouseSensitivity;
         pitch = Mathf.Clamp(pitch, clampMin, clampMax);
 
-        //calcolo la rotazione orizzontale
-        Quaternion yawRotation = Quaternion.Euler(0, yaw, 0);
-
-        //calcolo la rotazione verticale
-        Quaternion pitchRotation = Quaternion.Euler(pitch, 0, 0);
+        //calcolo la rotazione
+        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
 
         //calcolo il finalOffset
-        Vector3 finalOffset = pitchRotation * (yawRotation * offset);
+        Vector3 finalOffset = rotation * offset;
 
-        //fix per camera sotto il terreno
+        if (target == null) return;
+
         Vector3 cameraPos = target.position + finalOffset;
 
+        //fix per camera sotto il terreno
         if (cameraPos.y < target.position.y + terrainOffset)
         {
             cameraPos.y = target.position.y + terrainOffset;

@@ -5,7 +5,7 @@ public class Coin : MonoBehaviour
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private int coinValue = 1;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (!collision.CompareTag("Player")) 
             return;

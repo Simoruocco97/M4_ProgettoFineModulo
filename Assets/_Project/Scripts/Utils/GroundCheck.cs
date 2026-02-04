@@ -3,6 +3,7 @@ using UnityEngine;
 public class GroundCheck : MonoBehaviour
 {
     [SerializeField] private LayerMask terrain;
+    [SerializeField] private LayerMask platform;
     [SerializeField] private Transform groundChecker;
     [SerializeField] private float groundDistance;
     private bool IsGrounded = true;
@@ -12,6 +13,7 @@ public class GroundCheck : MonoBehaviour
     private void Awake()
     {
         terrain = LayerMask.GetMask("Terrain");
+        platform = LayerMask.GetMask("Platform");
     }
 
     private void OnDrawGizmos()
@@ -24,6 +26,6 @@ public class GroundCheck : MonoBehaviour
     private void Update()
     {
         if (groundChecker == null) return;
-        IsGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, terrain, QueryTriggerInteraction.Ignore);
+        IsGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, terrain | platform, QueryTriggerInteraction.Ignore);
     }
 }

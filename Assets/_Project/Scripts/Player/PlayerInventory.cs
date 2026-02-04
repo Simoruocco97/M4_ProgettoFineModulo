@@ -9,4 +9,9 @@ public class PlayerInventory : MonoBehaviour
         coinCounter += coin;
         Debug.Log($"Moneta raccolta! Monete totali: {coinCounter}");
     }
+
+    public int GetCoin()
+    {
+        return coinCounter;
+    }
 }
