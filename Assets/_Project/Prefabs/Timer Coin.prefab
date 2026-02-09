@@ -132,5 +132,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0533685730fd341b7c5f3f213e9947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerCoinValue: 20
+  timerCoinValue: 10
   timer: {fileID: 0}

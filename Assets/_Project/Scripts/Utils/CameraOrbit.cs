@@ -7,18 +7,25 @@ public class CameraOrbit : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 2f;
     [SerializeField] private float clampMin = -60f;
     [SerializeField] private float clampMax = 60f;
+    private const float terrainOffset = 0.5f;
     private float pitch;
     private float yaw;
     private Camera cam;
-    private const float terrainOffset = 0.5f;
+    private bool camLock = false;
 
     private void Awake()
     {
+        if (target == null)
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+
         cam = Camera.main;
     }
 
     private void LateUpdate()
     {
+        if (camLock)
+            return;
+
         //prendo in input
         float mouseY = Input.GetAxis("Mouse Y");
         float mouseX = Input.GetAxis("Mouse X");
@@ -48,4 +55,8 @@ public class CameraOrbit : MonoBehaviour
         cam.transform.position = cameraPos;
         cam.transform.LookAt(target.position);
     }
+
+    public void EnableCamLock() => camLock = true;
+
+    public void DisableCamLock() => camLock = false;
 }

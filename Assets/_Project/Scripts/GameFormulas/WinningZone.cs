@@ -4,16 +4,23 @@ using UnityEngine.Events;
 public class WinningZone : MonoBehaviour
 {
     [SerializeField] private UnityEvent onWinning;
-    private PlayerController playerController;
+    [SerializeField] private CameraOrbit cameraScript;
+
+    private void Awake()
+    {
+        if (cameraScript == null)
+            cameraScript = Camera.main.GetComponent<CameraOrbit>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            playerController = other.GetComponent<PlayerController>();
-            if (playerController != null)
+            cameraScript.EnableCamLock();
+            Debug.Log("Hai vinto");
+            if (Time.timeScale == 1)
             {
-                playerController.SpeedModify(0f);
+                Time.timeScale = 0;
                 onWinning.Invoke();
             }
         }

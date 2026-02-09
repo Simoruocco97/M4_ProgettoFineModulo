@@ -2,32 +2,20 @@ using UnityEngine;
 
 public class CursorController : MonoBehaviour
 {
-    [SerializeField] private bool cursorLock = true;
-
     private void Awake()
     {
-        SetCursor(cursorLock);
+        LockCursor();    
     }
 
-    private void Update()
+    public void LockCursor()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            cursorLock = !cursorLock;
-            SetCursor(cursorLock);
-        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
-    private void SetCursor(bool checkLock)
+
+    public void UnlockCursor()
     {
-        if (checkLock)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

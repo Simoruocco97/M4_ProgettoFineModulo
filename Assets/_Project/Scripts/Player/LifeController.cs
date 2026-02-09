@@ -13,7 +13,6 @@ public class LifeController : MonoBehaviour
     [Header("Unity Events")]
     [SerializeField] private UnityEvent<int, int> onHpChange;
     [SerializeField] private UnityEvent onDefeat;
-    [SerializeField] private UI_GameOver gameOver;
 
     private void Awake()
     {
@@ -62,10 +61,6 @@ public class LifeController : MonoBehaviour
         if (GetHp() <= minHp)
         {
             onDefeat.Invoke();
-
-            if (gameOver != null)
-                gameOver.ShowGameOver();
-
             Destroy(gameObject);
         }
     }

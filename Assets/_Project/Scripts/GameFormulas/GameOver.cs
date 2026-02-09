@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameOver : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class GameOver : MonoBehaviour
     [Header("GameOver Infos")]
     [SerializeField] private int mapMaxRange = 20;
     private bool isGameOver = false;
+
+    [Header("UnityEvent")]
+    [SerializeField] private UnityEvent onGameOver;
 
     private void Awake()
     {
@@ -22,18 +26,18 @@ public class GameOver : MonoBehaviour
     private void Update()
     {
         if (!isGameOver)
-        {
             FallCheck();
-        }
     }
 
     private void FallCheck()
     {
-        if (player == null) return;
+        if (player == null || isGameOver) return;
 
         if (player.transform.position.y <= -mapMaxRange)
         {
-            playerLifeController.TakeDamage(999);
+            isGameOver = true;
+            onGameOver.Invoke();
+            playerLifeController.TakeDamage(playerLifeController.GetMaxHp());
         }
     }
 }

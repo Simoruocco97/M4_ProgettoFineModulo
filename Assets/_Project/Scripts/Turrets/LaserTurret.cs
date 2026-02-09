@@ -35,7 +35,8 @@ public class LaserTurret : BaseTurret
             return;
         }
 
-        dir = (player.position - firepoint.position).normalized;
+        if (player != null)
+            dir = (player.position - firepoint.position).normalized;
 
         RotateTowardsPlayer();
 
