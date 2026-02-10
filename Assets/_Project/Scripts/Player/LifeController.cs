@@ -14,10 +14,16 @@ public class LifeController : MonoBehaviour
     [SerializeField] private UnityEvent<int, int> onHpChange;
     [SerializeField] private UnityEvent onDefeat;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioManager audioManager;
+
     private void Awake()
     {
         if (fullHpOnStart) SetHp(maxHp);
         else SetHp(hpOnStart);
+
+        if (audioManager == null)
+            audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     public int GetMaxHp()
@@ -53,6 +59,7 @@ public class LifeController : MonoBehaviour
     {
         if (damage < 0) damage = 0;
         SetHp(currentHp - damage);
+        audioManager.PlayPlayerDamageSound();
         DestroyIfDead();
     }
 
@@ -61,6 +68,8 @@ public class LifeController : MonoBehaviour
         if (GetHp() <= minHp)
         {
             onDefeat.Invoke();
+            audioManager.StopBackgroundMusic();
+            audioManager.PlayGameOverSound();
             Destroy(gameObject);
         }
     }

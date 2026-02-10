@@ -294,13 +294,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af3c727387d3084fa6a6ab4c1a8372a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: 180
+  player: {fileID: 0}
   firepoint: {fileID: 3302649061483898368}
   fireRate: 2
   force: 40
   bullet: {fileID: 7708748544771495134, guid: f770552081f1d08428b47089d239151a, type: 3}
   bulletLifeTime: 10
-  playerPos: {fileID: 0}
-  rotationSmoothness: 5
 --- !u!1 &4632874239568036927
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,6 +500,7 @@ GameObject:
   - component: {fileID: 4142474422589203890}
   - component: {fileID: 1863717473050335141}
   - component: {fileID: 1123746998693592244}
+  - component: {fileID: 6801171484696203721}
   m_Layer: 0
   m_Name: shootingTurret
   m_TagString: Untagged
@@ -557,6 +558,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turret: {fileID: 8649484923565972514}
+--- !u!64 &6801171484696203721
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7369651367848037826}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &8520059380639584823
 GameObject:
   m_ObjectHideFlags: 0

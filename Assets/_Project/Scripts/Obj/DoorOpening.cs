@@ -20,13 +20,18 @@ public class DoorOpening : MonoBehaviour
 
     private IEnumerator CoinCheckCoroutine()
     {
-        while (!CanDestroyDoor())
+        while (true)
         {
             coinCounter = playerInv.GetCoin();
+
+            if (CanDestroyDoor())
+            {
+                DestroyDoor();
+                yield break;
+            }
+
             yield return new WaitForSeconds(coinUpdateCheck);
         }
-
-        DestroyDoor();
     }
 
     private bool CanDestroyDoor()

@@ -4,6 +4,7 @@ public class HealingCoin : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private LifeController playerLifeController;
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private int healingPower = 5;
 
     private void Awake()
@@ -13,6 +14,9 @@ public class HealingCoin : MonoBehaviour
 
         if (player != null && playerLifeController == null)
             playerLifeController = player.GetComponent<LifeController>();
+
+        if (audioManager == null)
+            audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,6 +26,7 @@ public class HealingCoin : MonoBehaviour
             if (playerLifeController != null)
             {
                 playerLifeController.AddHp(healingPower);
+                audioManager.PlayCoinPickup();
                 Destroy(gameObject);
             }
         }
