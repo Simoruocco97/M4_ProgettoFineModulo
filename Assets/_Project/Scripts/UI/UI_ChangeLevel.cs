@@ -9,10 +9,12 @@ public class UI_ChangeLevel : MonoBehaviour
     public void LoadLevelOne()
     {
         SceneManager.LoadScene(firstLevelInt);
+        Time.timeScale = 1.0f;
     }
 
     public void LoadLevelTwo()
     {
         SceneManager.LoadScene(secondLevelInt);
+        Time.timeScale = 1.0f;
     }
 }
