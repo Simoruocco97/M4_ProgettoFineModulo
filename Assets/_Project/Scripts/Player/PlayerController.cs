@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Camera cam;
+    [SerializeField] private AnimationManager animator;
 
     [Header("Movement Attributes")]
     [SerializeField] private float speed = 2f;
@@ -30,9 +31,17 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        if (rb == null) rb = GetComponent<Rigidbody>();
-        if (groundCheck == null) groundCheck = GetComponent<GroundCheck>();
-        if (cam == null) cam = Camera.main;
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
+
+        if (groundCheck == null)
+            groundCheck = GetComponent<GroundCheck>();
+
+        if (cam == null)
+            cam = Camera.main;
+
+        if (animator == null)
+            animator = GetComponent<AnimationManager>();
 
         initialSpeed = speed;
     }
@@ -49,8 +58,9 @@ public class PlayerController : MonoBehaviour
 
         move = (verticalCam * vertical + horizontalCam * horizontal).normalized;
 
-        SprintCheck();
+        animator.MovementAnimation(move);
 
+        SprintCheck();
         if (Input.GetButtonDown("Jump"))
             PerformJump();
     }
@@ -67,6 +77,9 @@ public class PlayerController : MonoBehaviour
 
         rb.MovePosition(rb.position + move * (speed * Time.deltaTime) + platformShift);
 
+        animator.SetJumpState(groundCheck.CheckIsGrounded());
+        animator.JumpAnimation();
+
         if (move != Vector3.zero)
         {
             rotTarget = Quaternion.LookRotation(move);    //calcola il target della rotazione
@@ -78,7 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         float currentSpeed = initialSpeed;
 
-        if (Input.GetButton("Fire3")) 
+        if (Input.GetButton("Fire3"))
             currentSpeed *= multipliedSpeed;
 
         if (isSlowed)
@@ -89,8 +102,11 @@ public class PlayerController : MonoBehaviour
 
     private void PerformJump()
     {
-        if (groundCheck.CheckIsGrounded())
-            rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+        if (!groundCheck.CheckIsGrounded())
+            return;
+
+        rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+        animator.TriggerJump();
     }
 
     public void EnterPlatform(MovingPlatforms platform)

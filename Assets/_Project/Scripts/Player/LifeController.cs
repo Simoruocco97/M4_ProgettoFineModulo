@@ -9,6 +9,7 @@ public class LifeController : MonoBehaviour
     [SerializeField] private bool fullHpOnStart = false;
     private int hpOnStart = 50;
     private int currentHp;
+    private bool isDead = false;
 
     [Header("Unity Events")]
     [SerializeField] private UnityEvent<int, int> onHpChange;
@@ -17,6 +18,9 @@ public class LifeController : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private AudioManager audioManager;
 
+    [Header("Animator")]
+    [SerializeField] private AnimationManager animationManager;
+
     private void Awake()
     {
         if (fullHpOnStart) SetHp(maxHp);
@@ -24,6 +28,9 @@ public class LifeController : MonoBehaviour
 
         if (audioManager == null)
             audioManager = FindAnyObjectByType<AudioManager>();
+
+        if (animationManager == null)
+            animationManager = GetComponent<AnimationManager>();
     }
 
     public int GetMaxHp()
@@ -57,20 +64,36 @@ public class LifeController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (damage < 0) damage = 0;
-        SetHp(currentHp - damage);
-        audioManager.PlayPlayerDamageSound();
-        DestroyIfDead();
-    }
+        if (isDead) return;
 
-    private void DestroyIfDead()
-    {
+        SetHp(currentHp - damage);
+
         if (GetHp() <= minHp)
         {
-            onDefeat.Invoke();
-            audioManager.StopBackgroundMusic();
-            audioManager.PlayGameOverSound();
-            Destroy(gameObject);
+            OnDeath();
         }
+
+        if (!isDead)
+        {
+            animationManager.PlayDamageAnimation();
+            audioManager.PlayPlayerDamageSound();
+        }
+    }
+
+    public void DestroyIfDead()
+    {
+        onDefeat.Invoke();
+        Destroy(gameObject);
+    }
+
+    private void OnDeath()
+    {
+        isDead = true;
+
+        audioManager.StopBackgroundMusic();
+        animationManager.DeathAnimation();
+        audioManager.PlayGameOverSound();
+
+        Invoke(nameof(DestroyIfDead), 2);
     }
 }

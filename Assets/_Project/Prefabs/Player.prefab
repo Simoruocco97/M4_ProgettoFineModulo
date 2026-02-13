@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8879845647112117839
 Transform:
   m_ObjectHideFlags: 0
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7449514521400258717}
   cam: {fileID: 0}
+  animator: {fileID: 0}
   speed: 3.5
   multipliedSpeed: 2
   rotationSmoothness: 5
@@ -204,6 +205,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  audioManager: {fileID: 0}
+  animationManager: {fileID: 0}
 --- !u!114 &3930756240149375993
 MonoBehaviour:
   m_ObjectHideFlags: 0

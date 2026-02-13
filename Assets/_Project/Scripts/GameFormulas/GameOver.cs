@@ -8,6 +8,7 @@ public class GameOver : MonoBehaviour
     [SerializeField] private LifeController playerLifeController;
 
     [Header("GameOver Infos")]
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private int mapMaxRange = 20;
     private bool isGameOver = false;
 
@@ -21,6 +22,9 @@ public class GameOver : MonoBehaviour
 
         if (player != null && playerLifeController == null)
             playerLifeController = player.GetComponent<LifeController>();
+
+        if (audioManager == null)
+            audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     private void Update()
@@ -37,7 +41,9 @@ public class GameOver : MonoBehaviour
         {
             isGameOver = true;
             onGameOver.Invoke();
-            playerLifeController.TakeDamage(playerLifeController.GetMaxHp());
+            audioManager.StopBackgroundMusic();
+            audioManager.PlayGameOverSound();
+            playerLifeController.DestroyIfDead();
         }
     }
 }
